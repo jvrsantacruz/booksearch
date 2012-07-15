@@ -1,0 +1,90 @@
+{% if s.error %}
+
+  <div class=error >
+    <strong>Error:</strong> {{ s.error.message }}
+  </div>
+
+{% else %}
+
+  {% if s.results == 0 %}
+    <div id=noresults>
+      <h3>No results found for this search</h3>
+    </div>
+
+  {% else %}
+
+    <div id=resume>
+      Page: {{ s.page }} of {{ s.total_pages }}
+      -
+      Total Results: {{ s.total_results }}
+    </div>
+
+    <div id=paginator>
+      {% for page in range(1, s.total_pages + 1) %}
+        {% if loop.index == s.page %}
+            {{ page }}
+        {% else %}
+            <a class=page href="{{ page }}">{{ page }}</a>
+        {% endif %}
+
+        {% if not loop.last %}
+          -
+        {% endif %}
+      {% endfor %}
+    </div>
+
+  {% endif %}
+
+  <ul id=book-list>
+    {% for book in s.books %}
+
+      <li class=book>
+        {% if book.imageLinks %}
+          <a href='{{ book.imageLinks.thumbnail }}' target="_blank">
+            <img src='{{ book.imageLinks.thumbnail }}'>
+          </a>
+        {% else %}
+          <a href=#><img src=/static/img/nocover.png /></a>
+        {% endif %}
+
+        <a href="#" class=view-detail>
+          <h3 class=title>{{ book.title }}
+            {% if book.language %}
+              <div class="flag flag-{{ book.language }}"/>
+            {% endif %}
+          </h3>
+        </a>
+        <div class=authors_text><strong>Authors:</strong>{{ book.authors_text }}</div>
+
+        <div class=detail style="display: none">
+
+            <div class=isbn><strong>isbn:</strong>{{ book.isbn}}</div>
+
+            {% if book.pageCount %}
+              <div class=pageCount><strong>Pages:</strong> {{ book.pageCount }}</div>
+            {% endif %}
+
+            {% if book.averageRatings != None and book.ratingsCount != None %}
+              <div class=ratings>
+                Rating: <span class=averageRating>{{ book.averageRating }}</span> 
+                (<span class=ratingsCount>{{ book.ratingsCount }}</span> ratings)
+              </div>
+            {% endif %}
+
+            {% if book.title_long %}
+            <div class=title_long><strong>Long title:</strong>{{ book.title_long }}</div>
+            {% endif %}
+
+            <div class=publisher><strong>Publisher:</strong> {{ book.publisher }}</div>
+
+            {% if book.subject != None %}
+              <div class=subject><strong>Subject:</strong> {{ book.subject }}</div>
+            {% endif %}
+
+        </div>
+      </li>
+
+    {% endfor %}
+  </ul>
+
+{% endif %}

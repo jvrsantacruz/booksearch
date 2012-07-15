@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}BookSearch{% endblock %}
+
+{% block head %} 
+  <script src="/static/js/bs.js" type="text/javascript"></script>
+{% endblock %}
+
+{% block body %}
+<h1><a href=/>BookSearch</a></h1>
+<p class=tagline>ISBNdb based search</p>
+
+<h2>Search by <em>title</em>, <em>author</em>, <em>isbn</em>...</h2>
+
+<form id=search-form > 
+
+  <p> By
+  <select id=field class=search>
+    <option value=title selected>title</option>
+    <option value=isbn>isbn</option>
+    <option value=author>author</option>
+    <option value=publisher>publisher</option>
+    <option value=subject>subject</option>
+  </select>
+
+  <input type=search placeholder="Something like 'Don Quixote'" value="" class=search>
+
+  <input type=submit value="Search">
+  </p>
+</form>
+
+<progress id=progress style="display: none"/>
+
+{% endblock %}
+
+
+
